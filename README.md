@@ -8,4 +8,8 @@
 2.  $ npm install 실행
 3.  $ node device.js 실행
 
+### Operation Example
+![alt text](/images/ScreenShot1.png)
+
+
 ## T-RemotEye Device Connection Guide
