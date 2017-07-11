@@ -8,7 +8,7 @@ module.exports = {
     TREPort : '1883',
 
     // 20-digits Device Access Token given by manufacturer
-    userName : '22223333444455556666',
+    userName : 'tremoteyedevicekit01',
     //passWord : '',
 
     tremoteyeClientId : function() {
