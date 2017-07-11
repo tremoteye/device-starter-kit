@@ -12,7 +12,7 @@ T-RemotEye과 Device 간 Connection을 위해서는 MQTT(S) 프로토콜을 사�
 | PassWord | No password is needed |      -   |
 
 ### Device Connection Flow
-![Connectionflow](/images/screenshot2.png)
+![Connectionflow](https://github.com/tremoteye/device-starter-kit/blob/master/images/Screenshot2.png)
 
 
 
