@@ -39,6 +39,7 @@ messageSender.on('connect', function() {
     console.log(colors.green('Connected T-RemotEye Platform'));
     console.log(colors.blue('ClientID : ' + clientIdSession));
 
+    subscribeRPCTopic();
     intervalSender();
 });
 
@@ -46,7 +47,23 @@ messageSender.on('connect', function() {
 messageSender.on('error', function(error){
     console.log(colors.red(error));
     //self.emit('error', error);
-})
+});
+
+// messageArrived callback
+messageSender.on('message', function(topic, message) {
+    var msgs = message.toString();
+    var topic = topic.toString();
+    var requestId = topic.toString().split('/')[5];
+
+    if (msgs != null){
+      console.log(colors.magenta('Received RPC Message'));
+      console.log(colors.magenta('Topic :' + topic));
+      console.log(colors.magenta(msgs));
+      console.log(colors.magenta(''));
+
+      responseRPCRequest(requestId);
+    }
+});
 
 function intervalSender(){
 
@@ -69,9 +86,37 @@ function sendingMessage() {
     var sendingMessageJSON = JSON.stringify(sendingMessageObj);
 
     messageSender.publish(config.sendingTopic, sendingMessageJSON, {qos: 1}, function () {
-        console.log(colors.yellow('Successfully sending this message to T-RemotEye'));
+        console.log(colors.yellow('Successfully sending this message to T-RemotEye Platform'));
         console.log(colors.yellow('Message : ' + sendingMessageJSON));
         console.log(colors.yellow(''));
 
+    });
+}
+
+// Subscribe the RPC topic
+function subscribeRPCTopic(){
+
+    messageSender.subscribe(config.rpcReqTopic, {qos: 1}, function() {
+      // Response it as a callback
+      console.log(colors.yellow('Successfully Subscribe the RPC topic to T-RemotEye Platform'));
+      console.log(colors.yellow(''));
+
+    });
+}
+
+// Publish the RPC Result
+function responseRPCRequest(arg){
+
+    var sendingMessageObj = {
+      "Longitude" : longitudeValue[sequence % 10],
+      "Latitude" : latitudeValue[sequence % 10]
+    };
+
+    var sendingMessageJSON = JSON.stringify(sendingMessageObj);
+
+    messageSender.publish(config.rpcResTopic + arg, sendingMessageJSON, {qos: 1}, function() {
+      console.log(colors.magenta('Successfully sending this message to T-RemotEye Platform'));
+      console.log(colors.magenta('Message : ' + sendingMessageJSON));
+      console.log(colors.magenta(''));
     });
 }

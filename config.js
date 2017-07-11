@@ -17,5 +17,7 @@ module.exports = {
     },
 
     sendingTopic : 'v1/devices/me/telemetry',
+    rpcReqTopic : 'v1/devices/me/rpc/request/+',
+    rpcResTopic : 'v1/devices/me/rpc/response/',
     updateInterval : 1000
 }
