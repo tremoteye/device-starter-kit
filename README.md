@@ -9,7 +9,7 @@
 3.  $ node device.js 실행
 
 ### Operation Example
-![alt text](/images/ScreenShot1.png)
+![alt text](https://github.com/tremoteye/device-starter-kit/blob/master/images/Screenshot1.png)
 
 
 ## T-RemotEye Device Connection Guide
