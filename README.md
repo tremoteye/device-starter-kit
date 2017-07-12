@@ -6,7 +6,7 @@
 ### Device Connection Flow
 ![Connectionflow](https://github.com/tremoteye/device-starter-kit/blob/master/images/Screenshot2.png)
 
-### Device Configuration (For stater-kit only)
+### Starter Kit Device Configuration (For stater-kit only)
 | 구분   |      설명      |  비고  |
 |:----------:|:-------------:|:------:|
 | Device ID | 06b33db0-65dc-11e7-b348-83e2a45c1de5 | |
@@ -14,12 +14,12 @@
 
 
 ### Protocol
-T-RemotEye과 Device 간 Connection을 위해서는 MQTT(S) 프로토콜을 사용합니다.
+T-RemotEye과 Device 간 Connection을 위해서는 MQTT(S) or HTTP(S) 프로토콜을 사용합니다.
 
 | 구분   |      설명      |  비고  |
 |:----------:|:-------------:|:------:|
 | Host |   | 개발 서버 방화벽 오픈 문의 (hb.ahn@sk.com) |
-| Port |   1883 or 8883   |  - |
+| Port |   HTTP(8080), MQTT(1883)   |  - |
 | UserName | tremoteyedevicekit01 |  |
 | PassWord | No password is needed |      -   |
 
