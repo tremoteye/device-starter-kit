@@ -4,11 +4,11 @@
 
 module.exports = {
 
-    TREHost : '192.168.155.131',
-    TREPort : '8080',
+    TREHost : '223.39.121.158',
+    TREPort : '1883',
 
     // 20-digits Device Access Token given by manufacturer
-    userName : 'tremoteyedevicekit01',
+    userName : '11112222333344445555', // Please input your access token
     //passWord : '',
 
     tremoteyeClientId : function() {
@@ -16,8 +16,8 @@ module.exports = {
         return PRE_FIX + Math.random().toString(16).substr(2, 8);
     },
 
-    sendingTopic : 'v1/devices/me/telemetry',
-    rpcReqTopic : 'v1/devices/me/rpc/request/+',
-    rpcResTopic : 'v1/devices/me/rpc/response/',
+    sendingTopic : 'v1/sensors/me/telemetry',
+    rpcReqTopic : 'v1/sensors/me/rpc/request/+',
+    rpcResTopic : 'v1/sensors/me/rpc/response/',
     updateInterval : 2000
 }

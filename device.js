@@ -108,8 +108,8 @@ function subscribeRPCTopic(){
 function responseRPCRequest(arg){
 
     var sendingMessageObj = {
-      "Longitude" : longitudeValue[sequence % 10],
-      "Latitude" : latitudeValue[sequence % 10]
+      "results" : 2000,
+      "additionalInfo" : ""
     };
 
     var sendingMessageJSON = JSON.stringify(sendingMessageObj);
