@@ -32,7 +32,7 @@ var messageSender = mqtt.connect('mqtt://' + config.TREHost, {
     clientId:clientIdSession,
     clean:true,
     keepalive:60,
-    reconnectPeriod:1000
+    //reconnectPeriod:1000
 });
 
 messageSender.on('connect', function() {
@@ -42,6 +42,7 @@ messageSender.on('connect', function() {
 
     subscribeRPCTopic();
     intervalSender();
+
 });
 
 // Connection Error Callback
@@ -68,9 +69,81 @@ messageSender.on('message', function(topic, message) {
 
 function intervalSender(){
 
-    IntervalFunction = setInterval(sendingMessage, config.updateInterval);
+    IntervalFunction = setInterval(sendingMicroTripMessage, config.updateInterval);
 }
 
+
+function sendingMicroTripMessage(){
+
+  sequence++;
+
+  var microTrip = {
+   "sid": config.sensorId,
+   "ts": new Date().getTime(),
+   "ty": 2,
+   "pld": {
+       "lon": longitudeValue[sequence % 10],
+       "lat": latitudeValue[sequence % 10],
+       "deviceTime": new Date().getTime(),
+       "fc" : 30 + sequence,
+       "distance" : sequence
+   }
+  };
+
+  messageSender.publish(config.sendingTopic, JSON.stringify(microTrip), {qos: 0}, function(){
+    console.log(colors.yellow('Successfully sending this message to T-RemotEye Platform'));
+    console.log(colors.yellow('Message : ' + JSON.stringify(microTrip)));
+    console.log(colors.yellow(''));
+  });
+
+  if ( sequence == config.microTripCnt/2) {
+
+    sendingCollisionWarningDrv();
+  }
+
+  if ( sequence == config.microTripCnt ) {
+    clearInterval(IntervalFunction);
+    sendingTripMessage();
+  }
+}
+
+function sendingTripMessage(){
+
+  var trip = {
+    "sid": config.sensorId,
+    "ts": new Date().getTime(),
+    "ty": 1,
+    "pld": {
+      "test": "aaa"
+    }
+  };
+
+  messageSender.publish(config.sendingTopic, JSON.stringify(trip), {qos: 1}, function(){
+    console.log(colors.yellow('Successfully sending this message to T-RemotEye Platform'));
+    console.log(colors.yellow('Message : ' + JSON.stringify(trip)));
+    console.log(colors.yellow(''));
+  });
+
+}
+
+function sendingCollisionWarningDrv(){
+
+  var cwMsg = {
+    "sid": config.sensorId,
+    "ts": new Date().getTime(),
+    "ty": 4,
+    "pld": {
+      "dCWlat": 37.380646,
+      "dCWlon": 127.117784
+    }
+  };
+
+  messageSender.publish(config.sendingTopic, JSON.stringify(cwMsg), {qos: 1}, function(){
+    console.log(colors.yellow('Successfully sending this message to T-RemotEye Platform'));
+    console.log(colors.yellow('Message : ' + JSON.stringify(cwMsg)));
+    console.log(colors.yellow(''));
+  });
+}
 
 function sendingMessage() {
 
