@@ -182,8 +182,7 @@ function subscribeRPCTopic(){
 function responseRPCRequest(arg){
 
     var sendingMessageObj = {
-      "results" : 2000,
-      "additionalInfo" : ""
+      "results" : 2000
     };
 
     var sendingMessageJSON = JSON.stringify(sendingMessageObj);
@@ -193,4 +192,27 @@ function responseRPCRequest(arg){
       console.log(colors.magenta('Message : ' + sendingMessageJSON));
       console.log(colors.magenta(''));
     });
+
+    resultRPCpublish(arg);
+}
+
+function resultRPCpublish(arg){
+
+  var sendingMessageObj = {
+    "results" : 2000,
+    "additionalInfo" : {
+      "aaa" : "bbbb",
+      "bbb" : 1123,
+      "ccc" : 4444
+
+    }
+  };
+
+  var sendingResultJSON = JSON.stringify(sendingMessageObj);
+
+  messageSender.publish(config.rpcRstTopic + arg, sendingResultJSON, {qos: 1}, function() {
+    console.log(colors.magenta('Successfully sending this message to T-RemotEye Platform'));
+    console.log(colors.magenta('Message : ' + sendingResultJSON));
+    console.log(colors.magenta(''));
+  });
 }
