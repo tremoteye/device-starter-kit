@@ -82,10 +82,11 @@ function sendingMicroTripMessage(){
    "ts": new Date().getTime(),
    "ty": 2,
    "pld": {
+       "tid": 1,
        "lon": longitudeValue[sequence % 10],
        "lat": latitudeValue[sequence % 10],
        "deviceTime": new Date().getTime(),
-       "fc" : 30 + sequence,
+       "fc" : 40 + sequence,
        "distance" : sequence
    }
   };
@@ -114,7 +115,7 @@ function sendingTripMessage(){
     "ts": new Date().getTime(),
     "ty": 1,
     "pld": {
-      "test": "aaa"
+      "test": "cccc"
     }
   };
 
@@ -133,6 +134,7 @@ function sendingCollisionWarningDrv(){
     "ts": new Date().getTime(),
     "ty": 4,
     "pld": {
+      "tripId": 1,
       "dCWlat": 37.380646,
       "dCWlon": 127.117784
     }
@@ -193,7 +195,7 @@ function responseRPCRequest(arg){
       console.log(colors.magenta(''));
     });
 
-    resultRPCpublish(arg);
+    setTimeout(resultRPCpublish, 2000, arg) ;
 }
 
 function resultRPCpublish(arg){
