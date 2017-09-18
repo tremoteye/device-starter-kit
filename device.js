@@ -19,9 +19,20 @@ var clientIdSession = config.tremoteyeClientId();
 // Simulation Value
 var latitudeValue = [ 37.380646, 37.381709, 37.380241, 37.378891, 37.377187, 37.376293, 37.375395, 37.377185, 37.379274, 37.380005 ];
 var longitudeValue = [ 127.117784, 127.116573, 127.114513, 127.112602, 127.110394, 127.111222, 127.112336, 127.114857, 127.117786, 127.118527 ];
+var eventMarker = [ "20", "10", "40", "12", "2a" ];
+
+/*  
+      0010 0000 :  20  - 급가속
+      0001 0000 :  10  - 급감속
+      0100 1000 :  48  - 급정지 & 급유턴 
+      0001 0010 :  12  - 급감속 & 급좌회전
+      0010 1010 :  2a  - 급가속 & 급유턴 & 급좌회전 
+
+*/
 
 var sequence = 0;
 var IntervalFunction;
+var randTID = Math.random().toString().substr(5,0);
 
 // connection T-RemotEye Platform
 
@@ -73,22 +84,30 @@ function intervalSender(){
 }
 
 
-function sendingMicroTripMessage(){
-
+function sendingMicroTripMessage()
+{
   sequence++;
 
   var microTrip = {
-   "sid": config.sensorId,
-   "ts": new Date().getTime(),
+   //"sid": config.sensorId,/* Deprecated */
    "ty": 2,
+   "ts": new Date().getTime(),
+
    "pld": {
        "tid": 1,
+       "fc" : 40 + sequence,
        "lon": longitudeValue[sequence % 10],
        "lat": latitudeValue[sequence % 10],
-       "deviceTime": new Date().getTime(),
-       "fc" : 40 + sequence,
-       "distance" : sequence
-   }
+       "lc" : randomIntFromInterval(70, 85),
+       "clt" : new Date().getTime(),
+       "cdlt" : 1 + (sequence * randomIntFromInterval(3, 6)), 
+       "rpm" : randomIntFromInterval(1000, 1500),
+       "sp" : randomIntFromInterval(60, 80),
+       "em" : eventMarker[ randomIntFromInterval(0, 4)],
+       "el" : randomIntFromInterval(80.99, 98.99),
+       "vv" : randomIntFromInterval(10, 13),
+       "tpos" : randomIntFromInterval(80, 98)
+    }
   };
 
   messageSender.publish(config.sendingTopic, JSON.stringify(microTrip), {qos: 0}, function(){
@@ -217,4 +236,9 @@ function resultRPCpublish(arg){
     console.log(colors.magenta('Message : ' + sendingResultJSON));
     console.log(colors.magenta(''));
   });
+}
+
+function randomIntFromInterval(min, max)
+{
+    return Math.floor(Math.random() * ( max - min + 1 ) + min);
 }
