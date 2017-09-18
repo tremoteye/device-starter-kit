@@ -33,6 +33,8 @@ var eventMarker = [ "20", "10", "40", "12", "2a" ];
 var sequence = 0;
 var IntervalFunction;
 var randTID = Math.random().toString().substr(5,0);
+var startTs;
+var endTs;
 
 // connection T-RemotEye Platform
 
@@ -88,11 +90,19 @@ function sendingMicroTripMessage()
 {
   sequence++;
 
+  if (sequence == 1) {
+    startTs = new Date().getTime();
+
+  }
+  if (sequence == config.microTripCnt) {
+    endTs = new Date().getTime();
+  }
+
   var microTrip = {
    //"sid": config.sensorId,/* Deprecated */
    "ty": 2,
    "ts": new Date().getTime(),
-
+   "ap": 0,
    "pld": {
        "tid": 1,
        "fc" : 40 + sequence,
@@ -130,11 +140,30 @@ function sendingMicroTripMessage()
 function sendingTripMessage(){
 
   var trip = {
-    "sid": config.sensorId,
-    "ts": new Date().getTime(),
     "ty": 1,
+    "ts": new Date().getTime(),
     "pld": {
-      "test": "cccc"
+        "tid" : 1,
+        "stt" : startTs,
+        "edt" : endTs,
+        "dis" : 100,
+        "tdis" : 1023123,
+        "fc" : 1032,
+        "stlat" : longitudeValue[0],
+        "stlon" : latitudeValue[0],
+        "edlat" : longitudeValue[config.microTripCnt - 1],
+        "edlon" : longitudeValue[config.microTripCnt - 1],
+        "ctp" : 39,
+        "coe" : 1231,
+        "fct" : 1923,
+        "hsts" : 80,
+        "mesp" : 52,
+        "idt" : 440,
+        "btv" : 12.3,
+        "gnv" : 14.6,
+        "wut" : 300,
+        "dtvt" : 100
+
     }
   };
 
@@ -149,9 +178,8 @@ function sendingTripMessage(){
 function sendingCollisionWarningDrv(){
 
   var cwMsg = {
-    "sid": config.sensorId,
-    "ts": new Date().getTime(),
     "ty": 4,
+    "ts": new Date().getTime(),
     "pld": {
       "tripId": 1,
       "dCWlat": 37.380646,
