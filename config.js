@@ -9,7 +9,7 @@ module.exports = {
     TREHttpPort : '9000',
 
     // 20-digits Device Access Token given by manufacturer
-    userName : '11112222333344445555', // Please input your access token
+    userName : '11112222333344447777', // Please input your access token
     //passWord : '',
 
     tremoteyeClientId : function() {

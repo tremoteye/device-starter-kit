@@ -103,7 +103,8 @@ function sendingMicroTripMessage()
    "ty": 2,
    "ts": new Date().getTime(),
    "ap": 0,
-   "pld": {
+   "pld": 
+    {
        "tid": 1,
        "fc" : 40 + sequence,
        "lon": longitudeValue[sequence % 10],
@@ -117,7 +118,7 @@ function sendingMicroTripMessage()
        "el" : randomIntFromInterval(80.99, 98.99),
        "vv" : randomIntFromInterval(10, 13),
        "tpos" : randomIntFromInterval(80, 98)
-    }
+     }
   };
 
   messageSender.publish(config.sendingTopic, JSON.stringify(microTrip), {qos: 0}, function(){
@@ -142,16 +143,17 @@ function sendingTripMessage(){
   var trip = {
     "ty": 1,
     "ts": new Date().getTime(),
-    "pld": {
+    "pld":
+      {
         "tid" : 1,
         "stt" : startTs,
         "edt" : endTs,
         "dis" : 100,
         "tdis" : 1023123,
         "fc" : 1032,
-        "stlat" : longitudeValue[0],
-        "stlon" : latitudeValue[0],
-        "edlat" : longitudeValue[config.microTripCnt - 1],
+        "stlat" : latitudeValue[0],
+        "stlon" : longitudeValue[0],
+        "edlat" : latitudeValue[config.microTripCnt - 1],
         "edlon" : longitudeValue[config.microTripCnt - 1],
         "ctp" : 39,
         "coe" : 1231,
@@ -163,8 +165,7 @@ function sendingTripMessage(){
         "gnv" : 14.6,
         "wut" : 300,
         "dtvt" : 100
-
-    }
+      }
   };
 
   messageSender.publish(config.sendingTopic, JSON.stringify(trip), {qos: 1}, function(){
@@ -250,10 +251,10 @@ function resultRPCpublish(arg){
   var sendingMessageObj = {
     "results" : 2000,
     "additionalInfo" : {
-      "aaa" : "bbbb",
-      "bbb" : 1123,
-      "ccc" : 4444
-
+      "rusage" : {
+          "recv" : 100,
+          "stime" : 200
+      } 
     }
   };
 
