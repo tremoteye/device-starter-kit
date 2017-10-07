@@ -4,12 +4,12 @@
 
 module.exports = {
 
-    TREHost : '223.39.127.140',
-    TREPort : '1883',
+    TREHost : 'smartfleet.sktelecom.com',
+    TREPort : '8883',
     TREHttpPort : '9000',
 
     // 20-digits Device Access Token given by manufacturer
-    userName : '11112222333344447777', // Please input your access token
+    userName : '22223333444455556666', // Please input your access token
     //passWord : '',
 
     tremoteyeClientId : function() {
@@ -22,7 +22,7 @@ module.exports = {
     rpcResTopic : 'v1/sensors/me/rpc/response/',
     rpcRstTopic : 'v1/sensors/me/rpc/result/',
     updateInterval : 2000,
-    microTripCnt : 10,
+    microTripCnt : 20,
 
     jwt_token : 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZW5hbnRAdGhpbmdzYm9hcmQub3JnIiwic2NvcGVzIjpbIlRFTkFOVF9BRE1JTiJdLCJ1c2VySWQiOiJjYzNjZTEwMC05ZmNlLTExZTYtODA4MC04MDgwODA4MDgwODAiLCJlbmFibGVkIjp0cnVlLCJpc1B1YmxpYyI6ZmFsc2UsInRlbmFudElkIjoiY2JhNDRhODAtOWZjZS0xMWU2LTgwODAtODA4MDgwODA4MDgwIiwiY3VzdG9tZXJJZCI6IjEzODE0MDAwLTFkZDItMTFiMi04MDgwLTgwODA4MDgwODA4MCIsImlzcyI6InRoaW5nc2JvYXJkLmlvIiwiaWF0IjoxNTAxMTM1ODYxLCJleHAiOjE1MDEyMjU4NjF9.LdPmDC_w3N_D3ec449pmKobFsUynOx9Elm84lBiEyLVu_xCNeRt8hqxT823B0yLfLVVhvjPFNoYqcdd86lwPjQ'
 

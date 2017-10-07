@@ -20,8 +20,8 @@ var clientIdSession = config.tremoteyeClientId();
 //var latitudeValue = [ 37.380646, 37.381709, 37.380241, 37.378891, 37.377187, 37.376293, 37.375395, 37.377185, 37.379274, 37.380005 ];
 //var longitudeValue = [ 127.117784, 127.116573, 127.114513, 127.112602, 127.110394, 127.111222, 127.112336, 127.114857, 127.117786, 127.118527 ];
 
-var latitudeValue = [ 37.509141, 37.510296, 37.511334, 37.512353, 37.513743, 37.514770, 37.516314, 37.517931, 37.519846, 37.520830];
-var longitudeValue = [ 127.063228, 127.062512, 127.061969, 127.061426, 127.060685, 127.060067, 127.059200, 127.058356, 127.057246, 127.056787];
+var latitudeValue = [ 37.509141, 37.510296, 37.511334, 37.512353, 37.513743, 37.514770, 37.516314, 37.517931, 37.519846, 37.520759, 37.522624, 37.524782, 37.526018, 37.527895, 37.528641, 37.529740, 37.530824, 37.531986, 37.533009, 37.532616];
+var longitudeValue = [ 127.063228, 127.062512, 127.061969, 127.061426, 127.060685, 127.060067, 127.059200, 127.058356, 127.057246, 127.056837, 127.055780, 127.054697, 127.054908, 127.056011, 127.056456, 127.057057, 127.057673, 127.058318, 127.059712, 127.061573];
 var eventMarker = [ "20", "10", "40", "12", "2a" ];
 
 /*  
@@ -35,6 +35,7 @@ var eventMarker = [ "20", "10", "40", "12", "2a" ];
 
 var sequence = 0;
 var IntervalFunction;
+var tid = 0;
 var randTID = Math.random().toString().substr(5,0);
 var startTs;
 var endTs;
@@ -86,13 +87,17 @@ messageSender.on('message', function(topic, message) {
 
 function intervalSender(){
 
+    tid++;
+    sequence=0;
     IntervalFunction = setInterval(sendingMicroTripMessage, config.updateInterval);
+  
 }
 
 
 function sendingMicroTripMessage()
 {
   sequence++;
+  
 
   if (sequence == 1) {
     startTs = new Date().getTime();
@@ -109,10 +114,10 @@ function sendingMicroTripMessage()
    "ap": 0,
    "pld": 
     {
-       "tid": 1,
+       "tid": tid,
        "fc" : 40 + sequence,
-       "lon": longitudeValue[sequence % 10],
-       "lat": latitudeValue[sequence % 10],
+       "lon": longitudeValue[sequence % config.microTripCnt],
+       "lat": latitudeValue[sequence % config.microTripCnt],
        "lc" : randomIntFromInterval(70, 85),
        "clt" : new Date().getTime(),
        "cdlt" : 1 + (sequence * randomIntFromInterval(3, 6)), 
@@ -149,7 +154,7 @@ function sendingTripMessage(){
     "ts": new Date().getTime(),
     "pld":
       {
-        "tid" : 1,
+        "tid" : tid,
         "stt" : startTs,
         "edt" : endTs,
         "dis" : 100,
@@ -178,6 +183,8 @@ function sendingTripMessage(){
     console.log(colors.yellow(''));
   });
 
+
+  intervalSender();
 }
 
 function sendingCollisionWarningDrv(){
