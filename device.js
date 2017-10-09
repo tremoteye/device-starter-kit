@@ -25,14 +25,23 @@ var latitudeValue = [ 37.509141, 37.510296, 37.511334, 37.512353, 37.513743, 37.
                       37.531939, 37.531624, 37.531418, 37.530502, 37.527543, 37.526463, 37.525050, 37.523405, 37.521730, 37.520683,
                       37.519330, 37.518079, 37.516871, 37.516062, 37.515373, 37.515084, 37.514828, 37.514556, 37.514016, 37.513697,
                       37.513428, 37.513010, 37.511564, 37.510118, 37.508683, 37.506780, 37.507256, 37.507813, 37.508235, 37.508747 ];
+
 var longitudeValue = [ 127.063228, 127.062512, 127.061969, 127.061426, 127.060685, 127.060067, 127.059200, 127.058356, 127.057246, 127.056837, 
                        127.055780, 127.054697, 127.054908, 127.056011, 127.056456, 127.057057, 127.057673, 127.058318, 127.059712, 127.061573,
                        127.063994, 127.065731, 127.066625, 127.066153, 127.064765, 127.064304, 127.063639, 127.062914, 127.063069, 127.063960,
                        127.065430, 127.066148, 127.066492, 127.066610, 127.066717, 127.065204, 127.063488, 127.061846, 127.059270, 127.057246,
                        127.055474, 127.053350, 127.054029, 127.054846, 127.055550, 127.056604, 127.058326, 127.060275, 127.061543, 127.063367 ];
-var eventMarker = [ "20", "10", "40", "12", "2a" ];
+
+var eventMarker = [ "00", "20", "00", "00", "10", "00", "00", "00", "00", "00", 
+                    "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", 
+                    "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", 
+                    "00", "00", "00", "00", "00", "00", "00", "00", "00", "00", 
+                    "00", "00", "00", "00", "00", "00", "00", "00", "00", "00" ];
 
 /*  
+      0000 0001 :  01  - 급출발
+      0000 0010 :  02  - 급좌회전
+      0000 0100 :  04  - 급우회전
       0010 0000 :  20  - 급가속
       0001 0000 :  10  - 급감속
       0100 1000 :  48  - 급정지 & 급유턴 
@@ -52,7 +61,7 @@ var endTs;
 
 console.log(colors.green('Connecting to T-RemotEye Platform'));
 
-var messageSender = mqtt.connect('mqtts://' + config.TREHost, {
+var messageSender = mqtt.connect('mqtt://' + config.TREHost, {
     username:config.userName,
     clientId:clientIdSession,
     clean:true,
@@ -123,15 +132,15 @@ function sendingMicroTripMessage()
    "pld": 
     {
        "tid": tid,
-       "fc" : 40 + sequence,
+       "fc" : randomIntFromInterval(1499000, 1500000),
        "lon": longitudeValue[sequence % config.microTripCnt],
        "lat": latitudeValue[sequence % config.microTripCnt],
        "lc" : randomIntFromInterval(70, 85),
        "clt" : new Date().getTime(),
-       "cdlt" : 1 + (sequence * randomIntFromInterval(3, 6)), 
+       "cdlt" : randomIntFromInterval(15, 25), 
        "rpm" : randomIntFromInterval(1000, 1500),
-       "sp" : randomIntFromInterval(60, 80),
-       "em" : eventMarker[ randomIntFromInterval(0, 4)],
+       "sp" : randomIntFromInterval(70, 100),
+       "em" : eventMarker[ sequence ],
        "el" : randomIntFromInterval(80.99, 98.99),
        "vv" : randomIntFromInterval(10, 13),
        "tpos" : randomIntFromInterval(80, 98)
@@ -165,20 +174,20 @@ function sendingTripMessage(){
         "tid" : tid,
         "stt" : startTs,
         "edt" : endTs,
-        "dis" : 100,
+        "dis" : 2559,
         "tdis" : 1023123,
-        "fc" : 1032,
+        "fc" : randomIntFromInterval(19500000, 200000000),
         "stlat" : latitudeValue[0],
         "stlon" : longitudeValue[0],
         "edlat" : latitudeValue[config.microTripCnt - 1],
         "edlon" : longitudeValue[config.microTripCnt - 1],
-        "ctp" : 39,
+        "ctp" : 100,
         "coe" : 1231,
         "fct" : 1923,
-        "hsts" : 80,
-        "mesp" : 52,
+        "hsts" : randomIntFromInterval(90, 98),
+        "mesp" : randomIntFromInterval(40.1, 52.8),
         "idt" : 440,
-        "btv" : 12.3,
+        "btv" : 9.3,
         "gnv" : 14.6,
         "wut" : 300,
         "dtvt" : 100

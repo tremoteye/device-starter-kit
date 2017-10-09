@@ -4,12 +4,13 @@
 
 module.exports = {
 
-    TREHost : 'smartfleet.sktelecom.com',
-    TREPort : '8883',
+    //TREHost : 'smartfleet.sktelecom.com',
+    TREHost : '13.94.27.203',
+    TREPort : '1883',
     TREHttpPort : '9000',
 
     // 20-digits Device Access Token given by manufacturer
-    userName : '22223333444455556666', // Please input your access token
+    userName : '11112222333344445555', // Please input your access token
     //passWord : '',
 
     tremoteyeClientId : function() {
